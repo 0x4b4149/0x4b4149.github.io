@@ -18,7 +18,7 @@
 export const site = {
   title: 'Yuki\'s Blog', // required
   favicon: '/favicon.svg', // required
-  description: 'Welcome to my independent blog website! ',
+  description: 'Welcome to my blog!',
   author: "Yuki", // required
   avatar: '/avatar.png', // required
   motto: 'Hi, I\'m Yuki, from Taiwan',
