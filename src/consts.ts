@@ -54,7 +54,7 @@ export const categories = [
   {
     name: "Blog",
     iconClass: "ri-draft-line",
-    href: "/blog",
+    href: "/blog/1",
   },
   {
     name: "Archive",
@@ -78,29 +78,9 @@ export const categories = [
  */
 export const infoLinks = [
   {
-    icon: 'ri-telegram-fill',
-    name: 'telegram',
-    outlink: 'xxxxxxx',
-  },
-  {
-    icon: 'ri-twitter-fill',
-    name: 'twitter',
-    outlink: 'xxxxxxx',
-  },
-  {
     icon: 'ri-instagram-fill',
     name: 'instagram',
-    outlink: 'xxxxxxx',
-  },
-  {
-    icon: 'ri-github-fill',
-    name: 'github',
-    outlink: 'xxxxxxx',
-  },
-  {
-    icon: 'ri-rss-fill',
-    name: 'rss',
-    outlink: 'xxxxxxx',
+    outlink: 'https://www.instagram.com/0x4b4149_/',
   }
 ]
 
