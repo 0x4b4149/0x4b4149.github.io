@@ -1,116 +1,119 @@
 ---
+import {getCollectionByName} from "../utils/getCollectionByName";
+import getUniqueTags from "../utils/getUniqueTags";
+import getCountByCategory from "../utils/getCountByCategory";
 import HeaderLink from './HeaderLink.astro';
-import { siteConfig, NAV_LINKS } from '../consts';
-import ThemeToggle from '../components/ThemeToggle.astro';
-
-const url = new URL(Astro.request.url);
+import ThemeIcon from './ThemeIcon.astro'
+import MenuIcon from './MenuIcon.astro'
+import {site, categories, infoLinks} from '../consts';
+import AsideIcon from "./SidebarIcon.astro";
+import {t} from "../i18n/utils";
+import getCountByTagName from "../utils/getCountByTagName";
+const blogs = await getCollectionByName('blog')
+let tagArr = getUniqueTags(blogs);
+let categoryCount = getCountByCategory(blogs);
+let tagCount = getCountByTagName(blogs);
 ---
 
-<header class="group relative mb-8 flex justify-between items-center gap-4" id="main-header">
-	<div class="block">
-		<a
-			class="title whitespace-nowrap" 
-			href="/"
-			aria-current={url.pathname === "/" ? "page" : false}
-		>{siteConfig.title}</a>
-	</div>
+<header class="fixed top-0 w-full bg-skin-fill text-skin-base z-10">
+  <div class="flex items-center justify-between container">
+    <div class="block xl:hidden">
+      <MenuIcon></MenuIcon>
+    </div>
+    <a class="text-2xl p-4" href="/">{site.title}</a>
+    <div class="flex items-center">
+      <div class="hidden xl:block">
+        <div class="flex items-center space-x-5 pr-4">
+          {
+            categories.map(category => (
+              <HeaderLink href={category.href} icon={category.iconClass} target={category.target ? category.target : '_self'} children={category.children ? category.children : []}>{category.name}</HeaderLink>
+            ))
+          }
+        </div>
+      </div>
+      <ThemeIcon></ThemeIcon>
+      <div class="block xl:hidden">
+        <AsideIcon></AsideIcon>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden text-center overflow-y-auto pb-8" style="height: calc(100vh - 64px)">
+    {
+      categories.map((category) => (
+        <div class="py-2">
+          <a class=" hover:text-skin-active" href={category.href}>
+            <i class={category.iconClass}/>
+            <span>{category.name}</span>
+          </a>
+          {
+            category.children && category.children.length > 0 &&
+            <div class="divider-horizontal"></div>
+          }
+          <div class="space-y-4 text-sm">
+            {
+              category.children && category.children.map(sub =>
+                (
+                  <a class="block hover:text-skin-active" href={sub.href}>
+                    <i class={sub.iconClass}/>
+                    <span>{sub.name}</span>
+                  </a>
+                )
+              )
+            }
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div id="personal-info" class="hidden break-all overflow-y-auto pb-8" style="height: calc(100vh - 64px)">
+    <img class="avatar my-4 mx-auto" src={site.avatar} alt="avatar"/>
+    <div class="mb-2 text-center">{site.motto}</div>
+    <div class="flex items-center justify-center flex-wrap">
+      {
+        infoLinks.map((infoItem) => (
+          <a title={infoItem.name} href={infoItem.outlink} target="_blank">
+            <i class={infoItem.icon + " text-2xl mr-2 cursor-pointer"}/>
+          </a>
+        ))
+      }
+    </div>
+    <div class="divider-horizontal-mini"></div>
+    <div class="text-center">
+      {
+        Object.keys(categoryCount).length > 0 && (
+          <div>
+            <i class="ri-folder-line menu-icon"/>{t('sidebar.categories')}
+          </div>
+        )
+      }
+      {
+        Object.keys(categoryCount).map((category) => (
+          <div class="my-2 break-all truncate">
+            <a class="hover:text-skin-active" title={category + " (" + categoryCount[category] + ")"} href={"/category/" + category}>
+              {category + " (" + categoryCount[category] + ")"}
+            </a>
+          </div>
 
-	<nav 
-		class="mt-4 bg-surface/95 sm:bg-bgColor absolute hidden top-8 w-full sm:block sm:static sm:mt-0 group-[.menu-open]:z-50 group-[.menu-open]:flex group-[.menu-open]:bg-bgColor" 
-		id="navigation-menu" 
-		aria-label="main menu"
-		>
-		<div class="space-y-1 px-2 pb-3 pt-2 sm:flex sm:px-0 sm:py-0 sm:space-y-0 sm:space-x-2">
-			{NAV_LINKS.map(nav => (
-				<HeaderLink 
-					class="block py-2 sm:py-0" 
-					href={nav.path} 
-					title={nav.title}
-					aria-current={url.pathname === nav.path ? "page" : false}
-					data-astro-prefetch
-				>{nav.title}</HeaderLink>
-			))}
-				<HeaderLink 
-					class="sm:hidden block py-2 sm:py-0" 
-					href="/tags"
-					title="tags"
-					aria-current={url.pathname === "tags" ? "page" : false}
-					data-astro-prefetch
-				>Tags</HeaderLink>
-		</div>
-	</nav>
+        ))
+      }
+      {
+        tagArr.length > 0 && (
+          <div class="divider-horizontal-mini"></div>
+          <div class="text-center">
+            <i class="ri-price-tag-3-line menu-icon"/>
+            {t('sidebar.tags')}
+          </div>
+        )
+      }
+      {
+        tagArr &&
+        tagArr.map((tag) => (
+          <div class="my-2 break-all truncate">
+            <a class="hover:text-skin-active my-2" title={tag} href={"/tags/" + tag}>{tag + " (" + tagCount[tag] + ")"}</a>
+          </div>
+        ))
+      }
+    </div>
 
-	<div class="flex gap-2 items-center justify-center">
-		<ThemeToggle/>
-
-		<nav-button>
-			<div class="sm:hidden">
-				<span class="sr-only">open main menu</span>
-				<button 
-					class="group flex items-center justify-center" 
-					type="button" 
-					id="navigation-menu-btn"
-					aria-label="Open main menu"
-					aria-expanded="false"
-					aria-haspopup="menu"
-				>
-
-					<!-- icon when menu is closed -->
-					<svg class="transform transition-all duration-150 ease-out group-aria-expanded:scale-0 group-aria-expanded:opacity-0 h-6 w-6 block group-aria-expanded:hidden" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-					</svg>
-
-					<!-- icon when menu is open -->
-					<svg class="transform transition-all duration-150 ease-out h-6 w-6 scale-0 text-accent opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100 hidden group-aria-expanded:block" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-					</svg>
-				</button>
-			</div>
-		</nav-button>
-
-	</div>
+  </div>
 </header>
-
-<style>
-	.title {
-		@apply bg-accent p-1 text-bgColor text-sm;
-	}
-
-	.title:before{
-		content:"[";
-		margin-right: 0;
-		@apply text-bgColor;
-	}
-
-	.title:after {
-		content:"]";
-		@apply text-bgColor;
-	}
-</style>
-
-<script>
-	// src: https://github.com/chrismwilliams/astro-theme-cactus/blob/a85e0e559d3f92b32e73990486c0574b2b733227/src/components/layout/Header.astro
-
-	class MobileNavBtn extends HTMLElement {
-		private headerEl: HTMLElement;
-		private mobileButtonEl: HTMLButtonElement;
-		private menuOpen: boolean;
-
-		constructor() {
-			super();
-			this.headerEl = document.getElementById("main-header")!;
-			this.mobileButtonEl = this.querySelector("button") as HTMLButtonElement;
-			this.menuOpen = false;
-
-			this.mobileButtonEl.addEventListener("click", this.toggleMobileMenu);
-		}
-
-		toggleMobileMenu = () => {
-			this.headerEl.classList.toggle("menu-open");
-			this.menuOpen = !this.menuOpen;
-			this.mobileButtonEl.setAttribute("aria-expanded", this.menuOpen.toString());
-		};
-	}
-
-	customElements.define("nav-button", MobileNavBtn);
-</script>

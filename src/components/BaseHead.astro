@@ -1,61 +1,74 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
-import { siteConfig } from '../consts.ts';
-
-interface Props {
-	title: string;
-	description: string;
-	image?: string;
-	articleDate?: string;
-}
-
+import '../styles/index.css'
+import {site, config} from "../consts";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, articleDate, image = '/blog-placeholder-1.jpg' } = Astro.props;
-const titleSeparator = "|";
-const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
+const {mathjax = false, mermaid = false} = Astro.props
 ---
+<head>
+  <!-- Global Metadata -->
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="icon" type="image/svg+xml" href={site.favicon}/>
+  <meta name="generator" content={Astro.generator}/>
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalURL}/>
 
-<!-- Global Metadata -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<meta name="generator" content={Astro.generator} />
+  <!-- Primary Meta Tags -->
+  <meta name="title" content={site.title}/>
+  <meta name="description" content={site.description}/>
 
-<!-- Font preloads -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content={Astro.url}/>
+  <meta property="og:title" content={site.title}/>
+  <meta property="og:description" content={site.description}/>
+  <meta property="og:image" content={new URL(site.avatar, Astro.site?.href).href}/>
+  <meta property="og:image:alt" content={site.description}/>
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image"/>
+  <meta property="twitter:url" content={Astro.url}/>
+  <meta property="twitter:title" content={site.title}/>
+  <meta property="twitter:description" content={site.description}/>
+  <meta property="twitter:image" content={new URL(site.avatar, Astro.site?.href).href}/>
 
-<!-- Primary Meta Tags -->
-<title>{siteTitle}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
-<meta name="author" content={siteConfig.profile.author} />
+  <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="msapplication-TileColor" content="#da532c"/>
+  <meta name="msapplication-config" content="/browserconfig.xml"/>
+  <meta name="theme-color" content="#ffffff"/>
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
-{
-	articleDate && (
-		<>
-			<meta property="article:author" content={siteConfig.profile.author} />
-			<meta property="article:published_time" content={articleDate} />
-		</>
-	)
-}
+  <link rel="sitemap" href="/sitemap-0.xml"/>
+  <title>{site.title}</title>
+  <script is:inline src="/toggle-theme.js"></script>
+  {
+    mathjax && <script async type="text/javascript" src="/load-mathjax.js"></script>
+  }
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+  {
+    mermaid &&
+    <script async type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/mermaid/10.9.0/mermaid.min.js"></script>
+
+  }
+  {
+    config.busuanzi && <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  }
+  <!-- Google tag (gtag.js) -->
+  {
+    config.ga &&
+    <>
+      <script src={"https://www.googletagmanager.com/gtag/js?id=" +　config.ga}></script>
+      <script define:vars={{ga: config.ga}}>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', ga);
+      </script>
+    </>
+  }
+</head>

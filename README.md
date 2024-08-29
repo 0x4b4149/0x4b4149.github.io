@@ -1,148 +1,336 @@
-<a name="readme-top"></a>
-<div align="center">
-  
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+# Astro Theme Yi
 
+[[English]](./README.md) | [[简体中文]](./README-ZH-CN.md)
 
-  <p align="center">
-    <h1>Astro Theme Cody</h1>
-  <p>
-    A minimalist blog theme built with Astro. A quick and easy starter build for anyone who wants to start their own blog.
-  </p>
-    <a href="https://astro-theme-cody.netlify.app">View Demo</a>
-    ·
-    <a href="https://github.com/kirontoo/astro-theme-cody/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/kirontoo/astro-theme-cody/issues">Request Feature</a>
-  </p>
-  </p>
-</div>
+Demo：[Astro-Theme-Yi](https://astro-yi-nu.vercel.app/)
 
-![demo-preview](https://github.com/kirontoo/astro-theme-cody/assets/28286622/d585dcb2-6d5f-4a68-871c-b6028cfcc27f)
+A content-focused Astro blog theme, Yi, in Chinese, it means fast and concise.
 
+![](https://pic-19d9.obs.cn-east-3.myhuaweicloud.com/astroyi/home.png)
 
-## Table of Contents
-1. [Motivation](#motivation)
-2. [Key Features](#key-features)
-3. [Demo](#demo)
-4. [Quick Start](#quick-start)
-5. [Commands](#commands)
-6. [Configure](#configure)
-7. [Deploy](#deploy)
-8. [Extra Functionality](#extra-funtionality)
-9. [Credit](#credit)
+![](https://pic-19d9.obs.cn-east-3.myhuaweicloud.com/astroyi/post-white.png)
 
-## Motivation
-Although there are already so many blog themes out there, I wanted one that would give off
-that terminal/dev vibe and a few features that other themes did not have.
+### 🔥 Features
 
-## Key Features:
-- Astro v4 Fast 🚀
-- TailwindCSS Utility classes
-- Accessible, semantic HTML markup
-- Responsive & SEO-friendly
-- Dark / Light mode, using Tailwind and CSS variables
-- Pinned posts and projects
-- [Astro Assets Integration](https://docs.astro.build/en/guides/assets/) for optimised images
-- MD & [MDX](https://docs.astro.build/en/guides/markdown-content/#mdx-only-features) posts
-- Pagination
-- [Automatic RSS feed](https://docs.astro.build/en/guides/rss)
-- Auto-generated [sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
-- [Astro Icon](https://github.com/natemoo-re/astro-icon) svg icon component
-- Back To Top button
+- [x] Supports multi-platform display.
+- [x] Supports dark mode.
+- [x] support i18n
+- [x] Supports search functionality.
+- [x] SEO-friendly
+- [x] Supports sitemap and RSS.
+- [x] Supports article drafts.
+- [x] Supports Waline Comment.
+- [x] Image lazy loading and scaling support.
+- [x] Supports fixed permalinks for articles.
 
-## Demo
-Check out the demo [here](https://astro-theme-cody.netlify.app).
+......
 
-## Quick Start
-[Create a new repo](https://github.com/new?template_name=astro-theme-cody&template_owner=kirontoo) from this template.
+### Vercel Deplyment
 
-```
-# npm 7+
-npm create astro@latest -- --template kirontoo/astro-theme-cody
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https%3A%2F%2Fgithub.com%2Fcirry%2Fastro-yi)
 
-# pnpm
-pnpm dlx create-astro --template kirontoo/astro-theme-cody
+Give it a try! Click the button above, and you can deploy with just one click.
+
+### 👨🏻‍💻 Manual Installation
+
+Recommended for use `nodejs >= 18`，`pnpm >= 8`。
+
+```bash
+git clone https://github.com/cirry/astro-yi.git
+cd astro-yi
+npm install -g pnpm # install pnpm
+pnpm i  # installs dependencies
+npm run dev # preview, starts local dev server at localhost:4321
 ```
 
+```bash
+npm run build # build your production site to ./dist 
+```
+After the packaging is completed, Upload the `dist` folder to the web server directory.
 
-## Commands
+## Configuration
 
-All commands are run from the root of the project, from a terminal:
+In the `src/const.ts` file, you can make some modifications according to your needs.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm run dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm run build`           | Build your production site to `./dist/`          |
-| `pnpm run preview`         | Preview your build locally, before deploying     |
-| `pnpm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm run astro -- --help` | Get help using the Astro CLI                     |
+```ts
+/**
+ * title {string} website title
+ * favicon {string} website favicon url
+ * description {string} website description
+ * author {string} author
+ * avatar {string} Avatar used in the profile
+ * motto {string} used in the profile
+ * url {string} Website link
+ * recentBlogSize {number} Number of recent articles displayed in the sidebar
+ * archivePageSize {number} Number of articles on archive pages
+ * postPageSize {number} Number of articles on blog pages
+ * feedPageSize {number} Number of articles on feed pages
+ * beian {string} Chinese policy
+ */
+export const site = {
+    title: 'Astro Theme Yi',
+    favicon: '/favicon.svg',
+    description: 'Welcome to my independent blog website! ',
+    author: "xxxxx",
+    avatar: '/avatar.png',
+    motto: 'Keep moving.',
+    url: 'https://astro-yi-nu.vercel.app',
+    recentBlogSize: 5,
+    archivePageSize: 25,
+    postPageSize: 10,
+    feedPageSize: 20,
+    beian: ''
+  }
+
+/**
+ * busuanzi {boolean} Enable Busuanzi Statistics Functionality
+ * lang {string} Default website language: English
+ * codeFoldingStartLines {number}
+ */
+export const config = {
+  busuanzi: false,
+  lang: 'en', // English: en | 简体中文: zh-cn
+  codeFoldingStartLines: 16, // Need to re-run the project to take effect
+}
+
+/**
+ * Navigator
+ */
+export const categories = [
+  {
+    name: "Homepage",
+    iconClass: "ri-home-4-line",
+    href: "/",
+  },
+  {
+    name: "Blog",
+    iconClass: "ri-draft-line",
+    href: "/blog/1",
+  },
+  {
+    name: "Feed",
+    iconClass: "ri-lightbulb-flash-line",
+    href: "/feed/1",
+  },
+  {
+    name: "Archive",
+    iconClass: "ri-archive-line",
+    href: "/archive/1",
+  },
+  {
+    name: "Message",
+    iconClass: "ri-chat-1-line",
+    href: "/message/",
+  },
+  {
+    name: "Search",
+    iconClass: "ri-search-line",
+    href: "/search",
+  },
+  {
+    name: "More",
+    iconClass: "ri-more-fill",
+    href: "javascript:void(0);",
+    children: [
+      {
+        name: 'About',
+        iconClass: 'ri-information-line',
+        href: '/about',
+      },
+      {
+        name: 'Friends',
+        iconClass: 'ri-user-5-line',
+        href: '/friends',
+        target: '_self', // _self | _blank
+      },
+    ]
+  }
+]
+
+/**
+ * Personal link address
+ */
+export const infoLinks = [
+  {
+    icon: 'ri-telegram-fill',
+    name: 'telegram',
+    outlink: 'xxxxxxx',
+  },
+  {
+    icon: 'ri-twitter-fill',
+    name: 'twitter',
+    outlink: 'xxxxxxx',
+  },
+  {
+    icon: 'ri-instagram-fill',
+    name: 'instagram',
+    outlink: 'xxxxxxx',
+  },
+  {
+    icon: 'ri-github-fill',
+    name: 'github',
+    outlink: 'https://github.com/cirry',
+  },
+  {
+    icon: 'ri-mail-fill',
+    name: 'xxxxxxx@gmail.com',
+    outlink: 'mailto:xxxxxxx@gmail.com',
+  },
+  {
+    icon: 'ri-rss-fill',
+    name: 'rss',
+    outlink: 'https://xxxxx.com/rss.xml',
+  }
+]
+
+/**
+ * Donation feature
+ * Please replace the image and paypal link before use.
+ * enable {boolean}
+ * tip {string}
+ */
+export const donate = {
+  enable: false,
+  tip: "Thanks for the coffee !!!☕",
+  wechatQRCode: "/WeChatQR.png",
+  alipayQRCode: "/AliPayQR.png",
+  paypalUrl: "https://paypal.me/xxxxxxxx",
+}
+
+/**
+ * Friends Links Page
+ * name {string}
+ * url {string}
+ * avatar {string}
+ * description {string}
+ */
+export const friendshipLinks =
+  [
+    {
+      name: "Cirry's Blog",
+      url: 'https://cirry.cn',
+      avatar: "https://cirry.cn/avatar.png",
+      description: 'frontend development'
+    },
+  ]
+
+/**
+ * Comment Feature
+ * enable {boolean}
+ * type {string} giscus and waline are currently supported.
+ * walineConfig.serverUrl {string} server link
+ * walineConfig.pageSize {number} number of comments per page. default 10
+ * walineConfig.wordLimit {number} Comment word s limit. When a single number is filled in, it 's the maximum number of comment words. No limit when set to 0
+ * walineConfig.count {number} recent comment numbers
+ * walineConfig.pageview {boolean} display the number of page views and comments of the article
+ * walineConfig.reaction {string | string[]} Add emoji interaction function to the article
+ * walineConfig.requiredMeta {string[]}  Set required fields, default anonymous
+ */
+export const comment = {
+  enable: false,
+  type: 'giscus', // waline | giscus,
+  walineConfig:{
+    serverUrl: "https://xxxxx.xxxxx.app",
+    lang: 'en',
+    pageSize: 20,
+    wordLimit: '',
+    count: 5,
+    pageview: true,
+    reaction: true,
+    requiredMeta: ["nick", "mail"],
+    whiteList: ['/message/', '/friends/'],
+  },
+
+  // giscus config
+  giscusConfig: {
+    'data-repo': "xxxxxxx",
+    'data-repo-id': "xxxxxx",
+    'data-category': "Announcements",
+    'data-category-id': "xxxxxxxxx",
+    'data-mapping': "pathname",
+    'data-strict': "0",
+    'data-reactions-enabled': "1",
+    'data-emit-metadata': "0",
+    'data-input-position': "bottom",
+    'data-theme': "light",
+    'data-lang': "xxxxxxxxxxx",
+    'crossorigin': "anonymous",
+  }
+}
+```
+
+Please modify your website configuration, comment system configuration, appreciation function image, personal information links, and of course, you can also modify other configuration content.
+
+### Write a blog 
+
+With the Yi theme, all you need to do is create a new md document in `src/content/blog` and you're ready to start writing your blog.
+
+According to Astro's Markdown document standard, each document should have its own frontmatter information and add `---` as the beginning and the end of the document's header in md to mark the frontmatter, which gives us a lot of convenience:.
+
+1. for example, if we want to add tags and categories to a document or top some documents, we can add some attributes to the document in Frontmatter, such as `tags`, `sticky` and so on.
+
+2. For example, to avoid using Chinese as the blog path and file name, we can set `title` as the title of the md document in Chinese, and the file name in English with `-` as the word connecting symbol.
+
+In Astro-Yi, You need to set two important properties: **title** and **date**, the following is the simplest frontmatter setup for a Md document:
+
+```yaml
+---
+title: Display pictures
+date: 2024-03-05
+---
+```
+
+If you feel that this is not quite enough, Yi also provides more properties for you to use, this is a complete example:
+
+```yaml
+---
+title: Display pictures
+description: Display pictures
+date: 2024-03-05
+tags: [astro]
+category: astro
+sticky: 100  // Document top weight, the larger the number, the greater the weight
+slug: poem/ci //  Permanent link to document
+mathjax: false // enable formula display
+mermaid: false // enable mermaid
+draft: false
+toc: true
+donate: false
+comment: false
+---
+```
+
+### Write a feed
+
+With the Yi theme, all you need to do is create a new md document in `src/content/feed` and you're ready to start writing.
+
+feed frontmatter needs to set an important property **date**, the rest of the attributes are optional.
+
+```yaml
+---
+date: 2024-03-20
+---
+```
+
+### Modify icons
+
+All the icons in the blog are using the open source icon library [remixicon](https://remixicon.cn/), you can replace your favorite icons by yourself.
+
+### Note
+
+In the `astro.config.mjs` file in the root directory, it is recommended to modify the `site` property to correctly generate the site map.
+
+```js
+export default defineConfig({
+  site: 'https://xxxx.com',// Modify to your own website address
+  // ...
+})
+```
+
+Add a line to the path of your sitemap file at the end of the robots.txt file in the public directory.
 
 
-## Configure
-
-### Adding Posts and Projects
-This theme utilises [ Content Collections ](https://docs.astro.build/en/guides/content-collections/) 
-to organise Markdown and/or MDX files, as well as type-checking frontmatter 
-with a schema -> `src/content/config.ts`.
-
-You can find examples of blog posts in `src/content/blog` and examples of projects in `src/content/project`.
-
-#### Blog post frontmatter
-| Property (* = required) | Description |
-|:-----------------------| :---------- |
-| title * | Title of your post. Limited to a maximum of 150 characters  |
-| description * | Short description of your post, which will also be used for SEO. Has a max length of 250 characters. |
-| pubDate * | Published date |
-| updateDate | Optional date representing when the post has been updated. Note that this date will be used instead of the published date to order posts when available.|
-| heroImage | Optional cover image for you post. Include both a `src` and a `alt` property. Check `src/content/blog/first-post.md` for an example.|
-| ogImage | Optional image used for SEO. |
-| tags | Use optional tags to organize your posts into categories or topics. All tags will be shown in `yourdomain.com/tags`. |
-| draft | Optional boolean. Removes posts from being published.|
-| order | Optional number value from 1 - 5 to pin certain posts to the top. Limited to only 5 pinned posts|
-
-#### Project frontmatter
-
-| Property (* = required) | Description |
-|:-----------------------| :----------|
-| title * | Title of your project. Limited to a maximum of 150 characters  |
-| description * | Short description of your project, which will also be used for SEO.|
-| pubDate * | Published date |
-| heroImage | Optional cover image for you project. Include both a `src` and a `alt` property. Check `src/pages/projects/project-1.md` for an example.|
-| ogImage | Optional image used for SEO. |
-| stack * | A list of technologies your project used which will be rendered as icons. This theme uses the SVG Logos librar, you can use [icones.js.org](https://icones.js.org/collection/vscode-icons) to find the icons you need.|
-| platform | Link to website or demo |
-| website | Link to website or demo |
-| github | Your github repo link |
-| draft | Optional boolean. Removes projects from being published.|
-| order | Optional number value from 1 - 5 to pin certain projects to the top. Limited to only 5 pinned posts|
-
-## Deploy
-Astro provides great documentation for deploying your Astro websites on various platforms.
-You can find it [here](https://docs.astro.build/en/guides/deploy/).
-
-## Extra Funtionality
-Check out [Astro Recipes](https://docs.astro.build/en/recipes/) to add other functionality like a RSS feed.
-
-
-## Credit
-
-This theme is based off of the theme [Astro Cactus](https://astro-theme-cactus.netlify.app) and [Hugo Risotto](https://risotto.joeroe.io).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-[contributors-shield]: https://img.shields.io/github/contributors/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[contributors-url]: https://github.com/kirontoo/astro-theme-cody/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[forks-url]: https://github.com/kirontoo/astro-theme-cody/network/members
-[stars-shield]: https://img.shields.io/github/stars/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[stars-url]: https://github.com/kirontoo/astro-theme-cody/stargazers
-[issues-shield]: https://img.shields.io/github/issues/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[issues-url]: https://github.com/kirontoo/astro-theme-cody/issues
-[license-shield]: https://img.shields.io/github/license/kirontoo/astro-theme-cody.svg?style=for-the-badge
-[license-url]: https://github.com/kirontoo/astro-theme-cody/blob/master/LICENSE.txt
+```text
+Sitemap: [blog-url]/sitemap-0.xml
+// ps：Sitemap: https://astro-yi-nu.vercel.app/sitemap-0.xml
+```

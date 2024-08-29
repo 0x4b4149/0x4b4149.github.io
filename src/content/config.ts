@@ -1,72 +1,29 @@
-import { defineCollection, z } from 'astro:content';
-
-function removeDupsAndLowercase(list: string[]) {
-	if (!list.length) return list;
-	const lowercaseItems = list.map((str) => str.toLowerCase());
-	const uniqueItems = new Set(lowercaseItems);
-	return Array.from(uniqueItems);
-
-}
+import {defineCollection, z} from 'astro:content';
 
 const blog = defineCollection({
-	type: 'content',
-	// Type-check frontmatter using a schema
-	schema: () => z.object({
-		title: z.string().max(150),
-		description: z.string().max(250),
-		// Transform string to Date object
-		pubDate: z
-			.string()
-			.or(z.date())
-			.transform(val => new Date(val)),
-		updatedDate: z
-			.string()
-			.or(z.date())
-			.transform(val => val ? new Date(val) : undefined)
-			.optional(),
-		heroImage: z.object({
-			src: z.string(),
-			alt: z.string().optional(),
-		}).optional(),
-		ogImage: z.string().optional(),
-		tags: z
-			.array(z.string())
-			.default([])
-			.transform(removeDupsAndLowercase)
-			.optional(),
-		series: z
-			.array(z.string())
-			.default([])
-			.transform(removeDupsAndLowercase)
-			.optional(),
-		draft: z.boolean().optional().default(false),
-		// for pinning posts
-		order: z.number().min(1).max(5).optional()
-	}),
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional().nullable(),
+    date: z.date(),
+    tags: z.array(z.string()).or(z.string()).optional().nullable(),
+    category: z.array(z.string()).or(z.string()).default('uncategorized').nullable(),
+    sticky: z.number().default(0).nullable(),
+    mathjax: z.boolean().default(false).nullable(),
+    mermaid: z.boolean().default(false).nullable(),
+    draft: z.boolean().default(false).nullable(),
+    toc: z.boolean().default(true).nullable(),
+    donate: z.boolean().default(true).nullable(),
+    comment: z.boolean().default(true).nullable(),
+  }),
 });
 
-const project = defineCollection({
-	type: 'content',
-	schema: () => z.object({
-		title: z.string(),
-		description: z.string(),
-		pubDate: z
-			.string()
-			.or(z.date())
-			.transform(val => new Date(val)),
-		heroImage: z.object({
-			url: z.string(),
-			alt: z.string().optional()
-		}).optional(),
-		ogImage: z.string().optional(),
-		stack: z.array(z.string()).default([]).transform(removeDupsAndLowercase),
-		platform: z.string().optional(),
-		website: z.string().optional(),
-		github: z.string().optional(),
-		draft: z.boolean().optional().default(false),
-		// for pinning projects
-		order: z.number().min(1).max(5).optional()
-	})
-});
+const feed = defineCollection({
+  schema: z.object({
+    date: z.date().or(z.string()).optional().nullable(),
+    donate: z.boolean().default(true),
+    comment: z.boolean().default(true),
+  })
+})
 
-export const collections = { blog, project };
+export const collections = {blog, feed};
