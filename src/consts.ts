@@ -16,13 +16,13 @@
  * beian {string} Chinese policy
  */
 export const site = {
-  title: 'Astro Theme Yi', // required
+  title: 'Yuki\'s Blog', // required
   favicon: '/favicon.svg', // required
   description: 'Welcome to my independent blog website! ',
-  author: "Astro-Yi", // required
+  author: "Yuki", // required
   avatar: '/avatar.png', // required
-  motto: 'Actions speak louder than words.',
-  url: '',
+  motto: 'Hi, I\'m Yuki, from Taiwan',
+  url: 'https://0x4b4149.github.io/',
   recentBlogSize: 5,
   archivePageSize: 25,
   postPageSize: 10,
