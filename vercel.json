@@ -1,0 +1,17 @@
+{
+  "framework": "astro",
+  "installCommand": "pnpm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "C:\\Users\\a0983\\GitHub\\0x4b4149.github.io",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}
