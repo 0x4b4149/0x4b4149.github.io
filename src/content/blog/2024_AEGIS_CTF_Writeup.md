@@ -24,7 +24,7 @@ tags: ["Writeup"]
 把這段 code 直接塞上去 online compiler，直接出 flag
 
 code(整理過的):
-```C#
+```cs
 using System;
 
 using System.Text;
