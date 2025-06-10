@@ -56,7 +56,7 @@ CPE-0301B：井然有序-重複排序-袋內排序
 
 ### CPE-0105A
 
-```C++
+```c++
 #include "bits/stdc++.h"
 
 using namespace std;
